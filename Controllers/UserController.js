@@ -224,7 +224,7 @@ const forgotPassword = async (req, res) => {
           const subject = "Password Reset Request";
           const text = `Reset Link  :- http://localhost:5173/resetpassword/${token}`;
 
-           await mailSend(email, subject, text);
+          await mailSend(email, subject, text);
 
           res.json({
                token: token
@@ -236,28 +236,28 @@ const forgotPassword = async (req, res) => {
      }
 };
 
-const resetpassword = async (req,res)=>{
+const resetpassword = async (req, res) => {
      const token = req.body.token;
-     try{ 
-          const userFromToken = jwt.verify(token,secret)
+     try {
+          const userFromToken = jwt.verify(token, secret)
           console.log(userFromToken);
-          const hashedPassword = bcrypt.hashSync(req.body.password,10)
-          const user = await userModel.findByIdAndUpdate(userFromToken.id,{password:hashedPassword})
+          const hashedPassword = bcrypt.hashSync(req.body.password, 10)
+          const user = await userModel.findByIdAndUpdate(userFromToken.id, { password: hashedPassword })
 
           res.status(200).json({
-               message:"valid user",
-               user:userFromToken,
-               user:user
+               message: "valid user",
+               user: userFromToken,
+               user: user
           })
-          
-     }catch(err){
+
+     } catch (err) {
           console.log(err);
           res.status(401).json({
-               message:"token invalid che bhai"
+               message: "token invalid che bhai"
           })
+     }
 }
-
 module.exports = {
      getUser, getUserById, getUserByName, addUser, deleteUser, addHobby, updateUser, addBulkUser, loginUser, getUserFromToken, getUsers, forgotPassword
 };
- 
+
