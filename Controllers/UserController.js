@@ -4,7 +4,8 @@ const XLSX = require("xlsx");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const secret = "parth"
-const mailSend = require("../Utils/MailUtil")
+const mailSend = require("../Utils/MailUtil");
+const { act, use } = require("react");
 
 
 
@@ -238,10 +239,22 @@ const forgotPassword = async (req, res) => {
 const resetpassword = async (req,res)=>{
      const token = req.body.token;
      try{ 
-          // const userFromToken = jwt.  
-     }catch(err){
+          const userFromToken = jwt.verify(token,secret)
+          console.log(userFromToken);
+          const hashedPassword = bcrypt.hashSync(req.body.password,10)
+          const user = await userModel.findByIdAndUpdate(userFromToken.id,{password:hashedPassword})
 
-     }
+          res.status(200).json({
+               message:"valid user",
+               user:userFromToken,
+               user:user
+          })
+          
+     }catch(err){
+          console.log(err);
+          res.status(401).json({
+               message:"token invalid che bhai"
+          })
 }
 
 module.exports = {
