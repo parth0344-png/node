@@ -3,8 +3,7 @@ const Schema = mongoose.Schema
 
 const userSchema = new Schema({
      name: {
-          type: String,
-          required: true
+          type: String
      },
      age: {
           type: Number
@@ -25,6 +24,16 @@ const userSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: "role"
 
+     },
+     file: {
+          type: String
+     },
+     password: {
+          type: String
+     },
+     email: {
+          type: String,
+          unique: true
      }
 }, {
      timestamps: true
